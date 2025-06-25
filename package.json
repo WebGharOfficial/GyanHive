@@ -1,0 +1,29 @@
+{
+  "name": "gyanhive-static-site",
+  "version": "1.0.0",
+  "description": "Gyanhive A-Levels Institute - Role-Based Access Control System",
+  "main": "index.html",
+  "scripts": {
+    "start": "python -m http.server 8000",
+    "dev": "python -m http.server 8000",
+    "build": "echo 'Static site - no build required'",
+    "deploy": "echo 'Deploy via GitHub Pages'"
+  },
+  "keywords": [
+    "education",
+    "a-levels",
+    "tutoring",
+    "role-based-access",
+    "dashboard",
+    "static-site"
+  ],
+  "author": "Gyanhive A-Levels Institute",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yourusername/gyanhive-static-site.git"
+  },
+  "homepage": "https://yourusername.github.io/gyanhive-static-site",
+  "devDependencies": {},
+  "dependencies": {}
+} 

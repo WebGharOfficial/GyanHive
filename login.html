@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Login | Gyanhive A-Levels Institute</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@700&family=Lato:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    .login-container {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      padding: 2rem;
+    }
+    
+    .login-card {
+      background: white;
+      border-radius: 1.5rem;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+      padding: 3rem;
+      max-width: 500px;
+      width: 100%;
+    }
+    
+    .login-header {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+    
+    .login-logo {
+      width: 80px;
+      height: auto;
+      margin-bottom: 1rem;
+    }
+    
+    .role-selector {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 2rem;
+      justify-content: center;
+    }
+    
+    .role-btn {
+      padding: 0.75rem 1.5rem;
+      border: 2px solid #e0e0e0;
+      border-radius: 0.75rem;
+      background: white;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-weight: 600;
+    }
+    
+    .role-btn.active {
+      border-color: #667eea;
+      background: #667eea;
+      color: white;
+    }
+    
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+    
+    .form-group label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: 600;
+      color: #333;
+    }
+    
+    .form-group input {
+      width: 100%;
+      padding: 0.75rem;
+      border: 2px solid #e0e0e0;
+      border-radius: 0.5rem;
+      font-size: 1rem;
+      transition: border-color 0.3s ease;
+    }
+    
+    .form-group input:focus {
+      outline: none;
+      border-color: #667eea;
+    }
+    
+    .login-btn {
+      width: 100%;
+      padding: 1rem;
+      background: #667eea;
+      color: white;
+      border: none;
+      border-radius: 0.5rem;
+      font-size: 1.1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+    
+    .login-btn:hover {
+      background: #5a6fd8;
+    }
+    
+    .error-message {
+      color: #e74c3c;
+      text-align: center;
+      margin-top: 1rem;
+      font-weight: 600;
+    }
+    
+    .signup-link {
+      text-align: center;
+      margin-top: 1.5rem;
+      color: #666;
+    }
+    
+    .signup-link a {
+      color: #667eea;
+      text-decoration: none;
+      font-weight: 600;
+    }
+    
+    .signup-link a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="login-container">
+    <div class="login-card">
+      <div class="login-header">
+        <img src="https://i.postimg.cc/130YSvb0/Untitled-design-5.png" alt="Gyanhive Crest" class="login-logo" />
+        <h1>Welcome to Gyanhive</h1>
+        <p>A-Levels Institute</p>
+      </div>
+      
+      <div class="role-selector">
+        <button class="role-btn active" data-role="student">Student</button>
+        <button class="role-btn" data-role="teacher">Teacher</button>
+        <button class="role-btn" data-role="admin">Admin</button>
+      </div>
+      
+      <form id="loginForm">
+        <div class="form-group">
+          <label for="username">Username</label>
+          <input type="text" id="username" name="username" required>
+        </div>
+        
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input type="password" id="password" name="password" required>
+        </div>
+        
+        <button type="submit" class="login-btn">Login</button>
+        
+        <div id="errorMessage" class="error-message" style="display: none;"></div>
+      </form>
+      
+      <div class="signup-link">
+        <p>New user? <a href="#" id="signupLink">Sign up here</a></p>
+      </div>
+    </div>
+  </div>
+
+  <script src="auth.js"></script>
+  <script>
+    // Mock user data
+    const mockUsers = {
+      students: [
+        { username: 'john_student', password: 'pass123', name: 'John Smith', adminApproved: true },
+        { username: 'sarah_student', password: 'pass123', name: 'Sarah Johnson', adminApproved: false }
+      ],
+      teachers: [
+        { username: 'dr_brown', password: 'teach123', name: 'Dr. Brown', verified: true, subjects: ['Mathematics', 'Physics'] },
+        { username: 'ms_wilson', password: 'teach123', name: 'Ms. Wilson', verified: false, subjects: ['English', 'Literature'] }
+      ],
+      admin: [
+        { username: 'admin', password: 'admin123', name: 'System Administrator' }
+      ]
+    };
+
+    let currentRole = 'student';
+    
+    // Role selector
+    document.querySelectorAll('.role-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.role-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        currentRole = btn.dataset.role;
+        
+        // Update form based on role
+        const usernameField = document.getElementById('username');
+        const passwordField = document.getElementById('password');
+        
+        if (currentRole === 'admin') {
+          usernameField.placeholder = 'admin';
+          passwordField.placeholder = 'admin123';
+        } else {
+          usernameField.placeholder = 'Enter username';
+          passwordField.placeholder = 'Enter password';
+        }
+      });
+    });
+    
+    // Login form
+    document.getElementById('loginForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+      
+      const username = document.getElementById('username').value;
+      const password = document.getElementById('password').value;
+      const errorMessage = document.getElementById('errorMessage');
+      
+      // Validate credentials
+      const users = mockUsers[currentRole + 's'];
+      const user = users.find(u => u.username === username && u.password === password);
+      
+      if (user) {
+        // Store user session
+        const sessionUser = {
+          ...user,
+          role: currentRole,
+          loginTime: new Date().toISOString()
+        };
+        
+        localStorage.setItem('currentUser', JSON.stringify(sessionUser));
+        
+        // Redirect based on role
+        switch(currentRole) {
+          case 'student':
+            window.location.href = 'student.html';
+            break;
+          case 'teacher':
+            window.location.href = 'teacher.html';
+            break;
+          case 'admin':
+            window.location.href = 'admin.html';
+            break;
+        }
+      } else {
+        errorMessage.textContent = 'Invalid username or password';
+        errorMessage.style.display = 'block';
+      }
+    });
+    
+    // Signup link
+    document.getElementById('signupLink').addEventListener('click', (e) => {
+      e.preventDefault();
+      alert('Signup functionality will be implemented in the next phase.');
+    });
+  </script>
+</body>
+</html> 

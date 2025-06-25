@@ -33,7 +33,7 @@
           <a href="faq.html" class="nav-btn" tabindex="0">FAQ</a>
           <a href="classes.html" class="nav-btn" tabindex="0">Classes</a>
           <a href="contact.html" class="nav-btn" tabindex="0">Contact</a>
-          <a href="#join" class="nav-btn cta-btn" tabindex="0">Join Now</a>
+          <a href="login.html" class="nav-btn login-btn" tabindex="0" id="loginBtn">Login</a>
         </div>
       </div>
       <div class="mobile-nav-overlay" id="mobileNav" aria-hidden="true" role="dialog">
@@ -43,7 +43,7 @@
           <a href="faq.html">FAQ</a>
           <a href="classes.html">Classes</a>
           <a href="contact.html">Contact</a>
-          <a href="#join" class="cta-btn">Join Now</a>
+          <a href="login.html" id="mobileLoginBtn">Login</a>
         </div>
       </div>
     </nav>
@@ -58,6 +58,10 @@
           <a href="#join" class="cta-btn" tabindex="0">Join Now</a>
           <a href="contact.html" class="cta-btn" tabindex="0">Contact</a>
           <a href="notes.html" class="cta-btn" tabindex="0">Download Notes</a>
+        </div>
+        <div id="dashboardAccess" style="display: none; margin-top: 2rem;">
+          <h3 style="color: white; margin-bottom: 1rem;">Welcome back!</h3>
+          <a href="#" class="cta-btn" id="dashboardBtn" style="background: #27ae60;">Access Dashboard</a>
         </div>
         <div class="hero-icons" aria-label="Subjects">
           <i class="fa-solid fa-flask-vial subject-icon" title="Chemistry" aria-label="Chemistry"></i>
@@ -166,6 +170,51 @@
       <div style="width:100%;margin-top:1rem;font-size:0.95rem;color:#ccc;">&copy; 2025 Gyanhive A-Levels Institute. All rights reserved.</div>
     </div>
   </footer>
+  <script src="auth.js"></script>
   <script src="script.js"></script>
+  <script>
+    // Check if user is logged in and update UI accordingly
+    document.addEventListener('DOMContentLoaded', function() {
+      const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+      
+      if (currentUser) {
+        // User is logged in
+        document.getElementById('loginBtn').textContent = 'Dashboard';
+        document.getElementById('mobileLoginBtn').textContent = 'Dashboard';
+        
+        // Show dashboard access in hero section
+        const dashboardAccess = document.getElementById('dashboardAccess');
+        const dashboardBtn = document.getElementById('dashboardBtn');
+        
+        dashboardAccess.style.display = 'block';
+        
+        // Set dashboard link based on user role
+        switch(currentUser.role) {
+          case 'student':
+            dashboardBtn.href = 'student.html';
+            dashboardBtn.textContent = 'Student Dashboard';
+            break;
+          case 'teacher':
+            dashboardBtn.href = 'teacher.html';
+            dashboardBtn.textContent = 'Teacher Dashboard';
+            break;
+          case 'admin':
+            dashboardBtn.href = 'admin.html';
+            dashboardBtn.textContent = 'Admin Dashboard';
+            break;
+        }
+        
+        // Update login button to logout
+        document.getElementById('loginBtn').onclick = function() {
+          localStorage.removeItem('currentUser');
+          window.location.reload();
+        };
+        document.getElementById('mobileLoginBtn').onclick = function() {
+          localStorage.removeItem('currentUser');
+          window.location.reload();
+        };
+      }
+    });
+  </script>
 </body>
 </html> 
