@@ -194,9 +194,13 @@
         const usernameField = document.getElementById('username');
         const passwordField = document.getElementById('password');
         
+        // Clear previous values
+        usernameField.value = '';
+        passwordField.value = '';
+        
         if (currentRole === 'admin') {
-          usernameField.placeholder = 'admin';
-          passwordField.placeholder = 'admin123';
+          usernameField.placeholder = 'Enter admin username';
+          passwordField.placeholder = 'Enter admin password';
         } else {
           usernameField.placeholder = 'Enter username';
           passwordField.placeholder = 'Enter password';
@@ -246,11 +250,16 @@
             console.log('Redirecting to admin.html');
             window.location.href = 'admin.html';
             break;
+          default:
+            console.log('Unknown role:', currentRole);
+            errorMessage.textContent = 'Unknown role selected';
+            errorMessage.style.display = 'block';
         }
       } else {
         errorMessage.textContent = 'Invalid username or password';
         errorMessage.style.display = 'block';
         console.log('Login failed - invalid credentials');
+        console.log('Expected admin credentials:', mockUsers.admin);
       }
     });
     
