@@ -212,9 +212,14 @@
       const password = document.getElementById('password').value;
       const errorMessage = document.getElementById('errorMessage');
       
+      console.log('Login attempt:', { username, password, currentRole });
+      
       // Validate credentials
       const users = mockUsers[currentRole + 's'];
+      console.log('Available users for role:', currentRole, users);
+      
       const user = users.find(u => u.username === username && u.password === password);
+      console.log('Found user:', user);
       
       if (user) {
         // Store user session
@@ -225,22 +230,27 @@
         };
         
         localStorage.setItem('currentUser', JSON.stringify(sessionUser));
+        console.log('User session stored:', sessionUser);
         
         // Redirect based on role
         switch(currentRole) {
           case 'student':
+            console.log('Redirecting to student.html');
             window.location.href = 'student.html';
             break;
           case 'teacher':
+            console.log('Redirecting to teacher.html');
             window.location.href = 'teacher.html';
             break;
           case 'admin':
+            console.log('Redirecting to admin.html');
             window.location.href = 'admin.html';
             break;
         }
       } else {
         errorMessage.textContent = 'Invalid username or password';
         errorMessage.style.display = 'block';
+        console.log('Login failed - invalid credentials');
       }
     });
     
