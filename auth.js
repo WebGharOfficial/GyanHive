@@ -62,6 +62,12 @@ class AuthManager {
     this.currentUser = { ...this.currentUser, ...userData };
     localStorage.setItem('currentUser', JSON.stringify(this.currentUser));
   }
+
+  // Refresh current user from localStorage
+  refreshCurrentUser() {
+    this.currentUser = this.getCurrentUser();
+    return this.currentUser;
+  }
 }
 
 // Mock data for the application

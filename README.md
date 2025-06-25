@@ -2,12 +2,6 @@
 
 This project implements a comprehensive role-based access control system for the Gyanhive A-Levels Institute website using only HTML, CSS, and JavaScript with localStorage for data persistence.
 
-## 🌐 Live Demo
-
-**GitHub Pages**: [https://yourusername.github.io/gyanhive-static-site](https://yourusername.github.io/gyanhive-static-site)
-
-*Replace `yourusername` with your actual GitHub username after deployment*
-
 ## 🚀 Features
 
 ### 🔐 Authentication System

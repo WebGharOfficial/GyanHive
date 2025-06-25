@@ -169,11 +169,11 @@
     // Mock user data
     const mockUsers = {
       students: [
-        { username: 'john_student', password: 'pass123', name: 'John Smith', adminApproved: true },
+        { username: 'sanshraymujiho', password: 'sabailaithaxatyota', name: 'John Smith', adminApproved: true },
         { username: 'sarah_student', password: 'pass123', name: 'Sarah Johnson', adminApproved: false }
       ],
       teachers: [
-        { username: 'dr_brown', password: 'teach123', name: 'Dr. Brown', verified: true, subjects: ['Mathematics', 'Physics'] },
+        { username: 'bibhangayho', password: 'tyonisabailaithaxa', name: 'Dr. Brown', verified: true, subjects: ['Mathematics', 'Physics'] },
         { username: 'ms_wilson', password: 'teach123', name: 'Ms. Wilson', verified: false, subjects: ['English', 'Literature'] }
       ],
       admin: [
@@ -199,8 +199,8 @@
         passwordField.value = '';
         
         if (currentRole === 'admin') {
-          usernameField.placeholder = 'Enter admin username';
-          passwordField.placeholder = 'Enter admin password';
+          usernameField.placeholder = 'Username';
+          passwordField.placeholder = 'password';
         } else {
           usernameField.placeholder = 'Enter username';
           passwordField.placeholder = 'Enter password';
@@ -219,7 +219,8 @@
       console.log('Login attempt:', { username, password, currentRole });
       
       // Validate credentials
-      const users = mockUsers[currentRole + 's'];
+      const userKey = currentRole === 'admin' ? 'admin' : currentRole + 's';
+      const users = mockUsers[userKey];
       console.log('Available users for role:', currentRole, users);
       
       const user = users.find(u => u.username === username && u.password === password);
@@ -234,24 +235,19 @@
         };
         
         localStorage.setItem('currentUser', JSON.stringify(sessionUser));
-        console.log('User session stored:', sessionUser);
         
         // Redirect based on role
         switch(currentRole) {
           case 'student':
-            console.log('Redirecting to student.html');
             window.location.href = 'student.html';
             break;
           case 'teacher':
-            console.log('Redirecting to teacher.html');
             window.location.href = 'teacher.html';
             break;
           case 'admin':
-            console.log('Redirecting to admin.html');
             window.location.href = 'admin.html';
             break;
           default:
-            console.log('Unknown role:', currentRole);
             errorMessage.textContent = 'Unknown role selected';
             errorMessage.style.display = 'block';
         }
@@ -259,7 +255,7 @@
         errorMessage.textContent = 'Invalid username or password';
         errorMessage.style.display = 'block';
         console.log('Login failed - invalid credentials');
-        console.log('Expected admin credentials:', mockUsers.admin);
+        console.log('Expected admin credentials:', mockUsers[userKey]);
       }
     });
     

@@ -5,6 +5,11 @@ class AdminDashboard {
   }
 
   init() {
+    // Refresh auth state in case there's a timing issue
+    if (auth && typeof auth.refreshCurrentUser === 'function') {
+      auth.refreshCurrentUser();
+    }
+    
     // Check authentication
     if (!auth.requireAuth('admin')) {
       return;
@@ -17,8 +22,13 @@ class AdminDashboard {
 
   setupUserInfo() {
     const user = auth.currentUser;
-    document.getElementById('userName').textContent = user.name;
-    document.getElementById('userAvatar').textContent = user.name.charAt(0);
+    if (user) {
+      document.getElementById('userName').textContent = user.name;
+      document.getElementById('userAvatar').textContent = user.name.charAt(0);
+    } else {
+      document.getElementById('userName').textContent = 'Administrator';
+      document.getElementById('userAvatar').textContent = 'A';
+    }
   }
 
   loadDashboard() {

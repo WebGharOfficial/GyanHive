@@ -57,10 +57,6 @@
           <a href="contact.html" class="cta-btn" tabindex="0">Contact</a>
           <a href="notes.html" class="cta-btn" tabindex="0">Download Notes</a>
         </div>
-        <div id="dashboardAccess" style="display: none; margin-top: 2rem;">
-          <h3 style="color: white; margin-bottom: 1rem;">Welcome back!</h3>
-          <a href="#" class="cta-btn" id="dashboardBtn" style="background: #27ae60;">Access Dashboard</a>
-        </div>
         <div class="hero-icons" aria-label="Subjects">
           <i class="fa-solid fa-flask-vial subject-icon" title="Chemistry" aria-label="Chemistry"></i>
           <i class="fa-solid fa-atom subject-icon" title="Physics" aria-label="Physics"></i>
@@ -155,7 +151,6 @@
         <a href="index.html">Home</a>
         <a href="about.html">About</a>
         <a href="faq.html">FAQ</a>
-        <a href="classes.html">Classes</a>
         <a href="contact.html">Contact</a>
       </div>
       <div class="footer-social">
@@ -176,41 +171,8 @@
       const currentUser = JSON.parse(localStorage.getItem('currentUser'));
       
       if (currentUser) {
-        // User is logged in
-        document.getElementById('loginBtn').textContent = 'Dashboard';
-        document.getElementById('mobileLoginBtn').textContent = 'Dashboard';
-        
-        // Show dashboard access in hero section
-        const dashboardAccess = document.getElementById('dashboardAccess');
-        const dashboardBtn = document.getElementById('dashboardBtn');
-        
-        dashboardAccess.style.display = 'block';
-        
-        // Set dashboard link based on user role
-        switch(currentUser.role) {
-          case 'student':
-            dashboardBtn.href = 'student.html';
-            dashboardBtn.textContent = 'Student Dashboard';
-            break;
-          case 'teacher':
-            dashboardBtn.href = 'teacher.html';
-            dashboardBtn.textContent = 'Teacher Dashboard';
-            break;
-          case 'admin':
-            dashboardBtn.href = 'admin.html';
-            dashboardBtn.textContent = 'Admin Dashboard';
-            break;
-        }
-        
-        // Update login button to logout
-        document.getElementById('loginBtn').onclick = function() {
-          localStorage.removeItem('currentUser');
-          window.location.reload();
-        };
-        document.getElementById('mobileLoginBtn').onclick = function() {
-          localStorage.removeItem('currentUser');
-          window.location.reload();
-        };
+        // User is logged in - no dashboard access shown on home page
+        console.log('User logged in:', currentUser.name);
       }
     });
   </script>
