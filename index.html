@@ -53,7 +53,7 @@
         <h1>Empowering A-levels Success with Modern Tutoring</h1>
         <p>Expert online and home-to-home classes in Physics, Math, Chemistry, Biology, and more. Learn with friendly, tech-driven educators.</p>
         <div class="hero-cta-group">
-          <a href="#join" class="cta-btn" tabindex="0">Join Now</a>
+          <a href="#join" class="cta-btn" tabindex="0" id="joinNowBtn">Join Now</a>
           <a href="contact.html" class="cta-btn" tabindex="0">Contact</a>
           <a href="#" class="cta-btn" tabindex="0" id="downloadNotesBtn">Download Notes</a>
         </div>
@@ -188,6 +188,66 @@
         });
       }
     });
+  </script>
+  <!-- Plans Modal -->
+  <div id="plansModal" class="plans-modal" style="display:none;">
+    <div class="plans-modal-content">
+      <span class="close-modal" id="closePlansModal">&times;</span>
+      <h2>Choose Your Plan</h2>
+      <div class="plans-list">
+        <div class="plan-card">
+          <h3>Basic</h3>
+          <p>Access to 2 subjects<br>Weekly group sessions<br>Online resources</p>
+          <button class="book-plan-btn" data-plan="Basic">Book Now</button>
+        </div>
+        <div class="plan-card">
+          <h3>Standard</h3>
+          <p>Access to 4 subjects<br>Group + 1:1 sessions<br>All online resources<br>Progress tracking</p>
+          <button class="book-plan-btn" data-plan="Standard">Book Now</button>
+        </div>
+        <div class="plan-card">
+          <h3>Premium</h3>
+          <p>All subjects<br>Unlimited sessions<br>Personal mentor<br>Priority support</p>
+          <button class="book-plan-btn" data-plan="Premium">Book Now</button>
+        </div>
+        <div class="plan-card">
+          <h3>Custom</h3>
+          <p>Tailored plan for your needs<br>Choose subjects & schedule<br>Contact us for details</p>
+          <button class="book-plan-btn" data-plan="Custom">Book Now</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script>
+    // Plans modal logic
+    const joinBtn = document.getElementById('joinNowBtn');
+    const plansModal = document.getElementById('plansModal');
+    const closePlansModal = document.getElementById('closePlansModal');
+    if (joinBtn && plansModal && closePlansModal) {
+      joinBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        plansModal.style.display = 'flex';
+        document.body.style.overflow = 'hidden';
+      });
+      closePlansModal.addEventListener('click', function() {
+        plansModal.style.display = 'none';
+        document.body.style.overflow = '';
+      });
+      window.addEventListener('click', function(e) {
+        if (e.target === plansModal) {
+          plansModal.style.display = 'none';
+          document.body.style.overflow = '';
+        }
+      });
+      document.querySelectorAll('.book-plan-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+          const plan = btn.getAttribute('data-plan');
+          alert('You have booked the ' + plan + ' plan! Our team will contact you soon.');
+          plansModal.style.display = 'none';
+          document.body.style.overflow = '';
+        });
+      });
+    }
   </script>
 </body>
 </html> 
