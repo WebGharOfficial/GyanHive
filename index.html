@@ -55,7 +55,7 @@
         <div class="hero-cta-group">
           <a href="#join" class="cta-btn" tabindex="0">Join Now</a>
           <a href="contact.html" class="cta-btn" tabindex="0">Contact</a>
-          <a href="notes.html" class="cta-btn" tabindex="0">Download Notes</a>
+          <a href="#" class="cta-btn" tabindex="0" id="downloadNotesBtn">Download Notes</a>
         </div>
         <div class="hero-icons" aria-label="Subjects">
           <i class="fa-solid fa-flask-vial subject-icon" title="Chemistry" aria-label="Chemistry"></i>
@@ -173,6 +173,19 @@
       if (currentUser) {
         // User is logged in - no dashboard access shown on home page
         console.log('User logged in:', currentUser.name);
+      }
+      // Download Notes button logic
+      const downloadBtn = document.getElementById('downloadNotesBtn');
+      if (downloadBtn) {
+        downloadBtn.addEventListener('click', function(e) {
+          e.preventDefault();
+          const user = JSON.parse(localStorage.getItem('currentUser'));
+          if (!user) {
+            window.location.href = 'login.html';
+          } else {
+            window.location.href = 'notes.html';
+          }
+        });
       }
     });
   </script>

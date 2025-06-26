@@ -169,12 +169,16 @@
     // Mock user data
     const mockUsers = {
       students: [
-        { username: 'jhoh_student', password: 'pass123', name: 'John Smith', adminApproved: true },
-        { username: 'sarah_student', password: 'pass123', name: 'Sarah Johnson', adminApproved: false }
+        { username: 'student1', password: 'pass1', name: 'Student One', adminApproved: true },
+        { username: 'student2', password: 'pass2', name: 'Student Two', adminApproved: true },
+        { username: 'student3', password: 'pass3', name: 'Student Three', adminApproved: true },
+        { username: 'student4', password: 'pass4', name: 'Student Four', adminApproved: true }
       ],
       teachers: [
-        { username: 'dr_brown', password: 'teach123', name: 'Dr. Brown', verified: true, subjects: ['Mathematics', 'Physics'] },
-        { username: 'ms_wilson', password: 'teach123', name: 'Ms. Wilson', verified: false, subjects: ['English', 'Literature'] }
+        { username: 'teacher1', password: 'pass1', name: 'Teacher One', verified: true, subjects: ['Mathematics', 'Physics'] },
+        { username: 'teacher2', password: 'pass2', name: 'Teacher Two', verified: true, subjects: ['Chemistry', 'Biology'] },
+        { username: 'teacher3', password: 'pass3', name: 'Teacher Three', verified: true, subjects: ['English', 'History'] },
+        { username: 'teacher4', password: 'pass4', name: 'Teacher Four', verified: true, subjects: ['Economics', 'Business'] }
       ],
       admin: [
         { username: 'admin', password: 'admin123', name: 'System Administrator' }

@@ -74,43 +74,61 @@ class AuthManager {
 const MockData = {
   // Student performance data
   studentPerformance: {
-    'john_student': {
+    'student1': {
       subjects: [
-        { name: 'Mathematics', grade: 'A', progress: 85 },
-        { name: 'Physics', grade: 'B+', progress: 78 },
-        { name: 'Chemistry', grade: 'A-', progress: 82 }
+        { name: 'Mathematics', grade: 'A', progress: 90 },
+        { name: 'Physics', grade: 'B+', progress: 80 }
+      ],
+      attendance: 95,
+      assignments: 10,
+      completedAssignments: 9
+    },
+    'student2': {
+      subjects: [
+        { name: 'Chemistry', grade: 'A-', progress: 85 },
+        { name: 'Biology', grade: 'B', progress: 75 }
       ],
       attendance: 92,
-      assignments: 15,
-      completedAssignments: 12
-    },
-    'sarah_student': {
-      subjects: [
-        { name: 'English', grade: 'A+', progress: 90 },
-        { name: 'Literature', grade: 'A', progress: 88 },
-        { name: 'History', grade: 'B+', progress: 75 }
-      ],
-      attendance: 88,
       assignments: 12,
+      completedAssignments: 11
+    },
+    'student3': {
+      subjects: [
+        { name: 'English', grade: 'A+', progress: 93 },
+        { name: 'History', grade: 'A', progress: 88 }
+      ],
+      attendance: 90,
+      assignments: 11,
       completedAssignments: 10
+    },
+    'student4': {
+      subjects: [
+        { name: 'Economics', grade: 'B+', progress: 82 },
+        { name: 'Business', grade: 'A', progress: 87 }
+      ],
+      attendance: 94,
+      assignments: 13,
+      completedAssignments: 12
     }
   },
 
   // Teacher availability
   teacherAvailability: {
-    'dr_brown': [
+    'teacher1': [
       { day: 'Monday', time: '09:00-11:00', available: true },
-      { day: 'Tuesday', time: '14:00-16:00', available: true },
-      { day: 'Wednesday', time: '10:00-12:00', available: false },
-      { day: 'Thursday', time: '15:00-17:00', available: true },
-      { day: 'Friday', time: '11:00-13:00', available: true }
+      { day: 'Tuesday', time: '14:00-16:00', available: true }
     ],
-    'ms_wilson': [
-      { day: 'Monday', time: '13:00-15:00', available: true },
+    'teacher2': [
+      { day: 'Wednesday', time: '10:00-12:00', available: true },
+      { day: 'Thursday', time: '15:00-17:00', available: true }
+    ],
+    'teacher3': [
+      { day: 'Friday', time: '11:00-13:00', available: true },
+      { day: 'Monday', time: '13:00-15:00', available: true }
+    ],
+    'teacher4': [
       { day: 'Tuesday', time: '09:00-11:00', available: true },
-      { day: 'Wednesday', time: '14:00-16:00', available: true },
-      { day: 'Thursday', time: '10:00-12:00', available: false },
-      { day: 'Friday', time: '15:00-17:00', available: true }
+      { day: 'Thursday', time: '10:00-12:00', available: true }
     ]
   },
 
@@ -124,24 +142,23 @@ const MockData = {
   ],
 
   // Pending users for admin approval
-  pendingUsers: [
-    { username: 'sarah_student', role: 'student', name: 'Sarah Johnson', adminApproved: false },
-    { username: 'ms_wilson', role: 'teacher', name: 'Ms. Wilson', verified: false }
-  ],
+  pendingUsers: [],
 
   // Mentor-student assignments
   mentorAssignments: [
-    { mentor: 'dr_brown', student: 'john_student' },
-    { mentor: 'ms_wilson', student: 'sarah_student' }
+    { mentor: 'teacher1', student: 'student1' },
+    { mentor: 'teacher2', student: 'student2' },
+    { mentor: 'teacher3', student: 'student3' },
+    { mentor: 'teacher4', student: 'student4' }
   ],
 
   // Platform analytics
   analytics: {
-    totalStudents: 45,
-    totalTeachers: 8,
-    activeSessions: 23,
-    resourcesAccessed: 156,
-    bookingsThisWeek: 34
+    totalStudents: 4,
+    totalTeachers: 4,
+    activeSessions: 4,
+    resourcesAccessed: 20,
+    bookingsThisWeek: 8
   }
 };
 

@@ -91,4 +91,41 @@ if (scrollBtn) {
   scrollBtn.addEventListener('click', () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   });
-} 
+}
+
+// Update login button to Dashboard if logged in
+window.addEventListener('DOMContentLoaded', function() {
+  function getDashboardUrl(user) {
+    if (!user) return 'login.html';
+    if (user.role === 'student' && user.adminApproved) return 'student.html';
+    if (user.role === 'teacher' && user.verified) return 'teacher.html';
+    if (user.role === 'admin') return 'admin.html';
+    return 'login.html';
+  }
+  try {
+    const userStr = localStorage.getItem('currentUser');
+    const loginBtn = document.getElementById('loginBtn');
+    const mobileLoginBtn = document.getElementById('mobileLoginBtn');
+    if (userStr) {
+      const user = JSON.parse(userStr);
+      const dashboardUrl = getDashboardUrl(user);
+      if (loginBtn) {
+        loginBtn.textContent = 'Dashboard';
+        loginBtn.href = dashboardUrl;
+      }
+      if (mobileLoginBtn) {
+        mobileLoginBtn.textContent = 'Dashboard';
+        mobileLoginBtn.href = dashboardUrl;
+      }
+    } else {
+      if (loginBtn) {
+        loginBtn.textContent = 'Login';
+        loginBtn.href = 'login.html';
+      }
+      if (mobileLoginBtn) {
+        mobileLoginBtn.textContent = 'Login';
+        mobileLoginBtn.href = 'login.html';
+      }
+    }
+  } catch (e) { /* ignore */ }
+}); 
