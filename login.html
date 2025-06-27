@@ -3,8 +3,9 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Login | Gyanhive A-Levels Institute</title>
+  <title>🐝 Login | Gyanhive A-Levels Institute</title>
   <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="beehive-theme.css" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@700&family=Lato:wght@400;700&display=swap" rel="stylesheet">
@@ -268,6 +269,23 @@
     document.getElementById('signupLink').addEventListener('click', (e) => {
       e.preventDefault();
       alert('Signup functionality will be implemented in the next phase.');
+    });
+
+    // Page load bee animation
+    document.addEventListener('DOMContentLoaded', function() {
+      function createPageBee() {
+        const bee = document.createElement('div');
+        bee.className = 'page-bee';
+        bee.innerHTML = '🐝';
+        document.body.appendChild(bee);
+        
+        setTimeout(() => {
+          bee.remove();
+        }, 4000);
+      }
+      
+      // Create page bee on load
+      setTimeout(createPageBee, 500);
     });
   </script>
 </body>

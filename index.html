@@ -6,8 +6,9 @@
   <meta name="description" content="Gyanhive: Modern A-levels tutoring with online and home-to-home classes. Physics, Math, Chemistry, Biology, and more. Friendly, tech-driven, and effective." />
   <meta name="keywords" content="A-levels, tutoring, online, home-to-home, physics, math, chemistry, biology, business, psychology, Gyanhive" />
   <meta name="author" content="Gyanhive" />
-  <title>Gyanhive A-Levels Institute</title>
+  <title>🐝 Gyanhive A-Levels Institute</title>
   <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="beehive-theme.css" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
@@ -50,7 +51,7 @@
   <main>
     <section class="hero-section immersive-hero" id="join">
       <div class="hero-content fade-in">
-        <h1>Empowering A-levels Success with Modern Tutoring</h1>
+        <h1>🐝 Empowering A-levels Success with Modern Tutoring</h1>
         <p>Expert online and home-to-home classes in Physics, Math, Chemistry, Biology, and more. Learn with friendly, tech-driven educators.</p>
         <div class="hero-cta-group">
           <a href="#join" class="cta-btn" tabindex="0" id="joinNowBtn">Join Now</a>
@@ -70,12 +71,12 @@
       </div>
     </section>
     <section class="about-section fade-in">
-      <h2>Welcome to Gyanhive A-Levels Tutoring</h2>
+      <h2>🐝 Welcome to Gyanhive A-Levels Tutoring</h2>
       <p class="about-desc">At Gyanhive, we blend academic rigor with creative, tech-driven learning. Our A-levels programs inspire, challenge, and support every student. Join a community where excellence meets innovation.</p>
       <div class="signature">— Gyanhive Team</div>
     </section>
     <section class="services-section fade-in" aria-labelledby="subjects">
-      <h2 id="subjects">Our A-Levels Subjects</h2>
+      <h2 id="subjects">🍯 Our A-Levels Subjects</h2>
       <div class="services-cards subject-grid">
         <div class="service-card" tabindex="0">
           <i class="fa-solid fa-atom subject-icon" aria-label="Physics"></i>
@@ -160,7 +161,7 @@
       <div class="footer-address">
         <span>Kathmandu, Nepal</span>
       </div>
-      <div style="width:100%;margin-top:1rem;font-size:0.95rem;color:#ccc;">&copy; 2025 Gyanhive A-Levels Institute. All rights reserved.</div>
+      <div class="footer-copyright">&copy; 2025 Gyanhive A-Levels Institute. All rights reserved.</div>
     </div>
   </footer>
   <script src="auth.js"></script>
@@ -174,6 +175,18 @@
         // User is logged in - no dashboard access shown on home page
         console.log('User logged in:', currentUser.name);
       }
+      
+      // Test Learn More buttons
+      const learnMoreButtons = document.querySelectorAll('.learn-more-btn');
+      console.log('Found', learnMoreButtons.length, 'Learn More buttons');
+      
+      learnMoreButtons.forEach((button, index) => {
+        console.log(`Button ${index + 1}:`, button.href);
+        button.addEventListener('click', function(e) {
+          console.log('Learn More button clicked:', this.href);
+        });
+      });
+      
       // Download Notes button logic
       const downloadBtn = document.getElementById('downloadNotesBtn');
       if (downloadBtn) {
@@ -187,6 +200,44 @@
           }
         });
       }
+      
+      // Page load bee animation
+      function createPageBee() {
+        const bee = document.createElement('div');
+        bee.className = 'page-bee';
+        bee.innerHTML = '🐝';
+        document.body.appendChild(bee);
+        
+        setTimeout(() => {
+          bee.remove();
+        }, 4000);
+      }
+      
+      // Create page bee on load
+      setTimeout(createPageBee, 500);
+      
+      // Add floating bee animation
+      function createFloatingBee() {
+        const bee = document.createElement('div');
+        bee.className = 'flying-bee';
+        bee.innerHTML = '🐝';
+        bee.style.left = Math.random() * window.innerWidth + 'px';
+        bee.style.animationDelay = Math.random() * 5 + 's';
+        document.body.appendChild(bee);
+        
+        setTimeout(() => {
+          bee.remove();
+        }, 6000);
+      }
+      
+      // Create bees periodically
+      setInterval(createFloatingBee, 15000);
+      
+      // Add bee wiggle effect to subject icons
+      const subjectIcons = document.querySelectorAll('.subject-icon');
+      subjectIcons.forEach(icon => {
+        icon.classList.add('bee-wiggle');
+      });
     });
   </script>
   <!-- Plans Modal -->

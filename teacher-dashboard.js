@@ -69,10 +69,19 @@ class TeacherDashboard {
     return `
       <div class="dashboard-card">
         <div class="card-header">
-          <h3 class="card-title">Schedule Availability</h3>
+          <h3 class="card-title">🍯 Schedule Availability</h3>
         </div>
-        <div class="schedule-grid" id="scheduleGrid">
-          <!-- Schedule will be loaded dynamically -->
+        <div class="compact-calendar" onclick="teacherDashboard.showSchedulePopup()">
+          <div class="compact-calendar-header">
+            <span>Weekly Schedule</span>
+            <i class="fa-solid fa-calendar-check" style="color: var(--honey-amber);"></i>
+          </div>
+          <div class="compact-schedule-preview" id="compactSchedule">
+            <!-- Compact schedule preview will be generated here -->
+          </div>
+          <div style="margin-top: 1rem; font-size: 0.9rem; color: var(--honey-text);">
+            Click to manage your availability
+          </div>
         </div>
       </div>
     `;
@@ -122,13 +131,145 @@ class TeacherDashboard {
     });
 
     this.renderAssignedStudentsData(assignedStudents);
-    this.renderSchedulingData();
+    this.renderCompactSchedule();
     this.renderAnalyticsData(assignedStudents);
     this.renderFeedbackTemplatesData(assignedStudents);
   }
 
+  renderCompactSchedule() {
+    const scheduleContainer = document.getElementById('compactSchedule');
+    if (!scheduleContainer) return;
+
+    const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'];
+    const user = auth.currentUser;
+    const availability = MockData.teacherAvailability[user.username] || [];
+    
+    let scheduleHTML = '';
+    
+    days.forEach(day => {
+      const daySlots = availability.filter(s => s.day === day);
+      const availableSlots = daySlots.filter(s => s.available).length;
+      const totalSlots = 4; // 4 time slots per day
+      const availabilityPercentage = Math.round((availableSlots / totalSlots) * 100);
+      
+      const statusClass = availabilityPercentage > 50 ? 'available' : 
+                         availabilityPercentage > 0 ? 'partial' : 'unavailable';
+      
+      scheduleHTML += `
+        <div class="compact-schedule-day ${statusClass}">
+          <div class="day-name">${day}</div>
+          <div class="availability-indicator">${availableSlots}/${totalSlots}</div>
+        </div>
+      `;
+    });
+
+    scheduleContainer.innerHTML = scheduleHTML;
+  }
+
+  showSchedulePopup() {
+    const modal = document.createElement('div');
+    modal.className = 'calendar-popup-modal';
+    modal.innerHTML = `
+      <div class="calendar-popup-content">
+        <div class="calendar-popup-header">
+          <h3>Manage Weekly Schedule</h3>
+          <button class="calendar-popup-close" onclick="this.parentElement.parentElement.parentElement.remove()">×</button>
+        </div>
+        <div class="honeycomb-schedule-grid" id="popupScheduleGrid">
+          <!-- Popup schedule will be generated here -->
+        </div>
+        <div class="calendar-legend">
+          <div class="legend-item">
+            <div class="legend-color available"></div>
+            <span>Available</span>
+          </div>
+          <div class="legend-item">
+            <div class="legend-color unavailable"></div>
+            <span>Unavailable</span>
+          </div>
+        </div>
+        <div style="text-align: center; margin-top: 1rem; color: var(--honey-text); font-size: 0.9rem;">
+          Click on time slots to toggle availability
+        </div>
+      </div>
+    `;
+    
+    document.body.appendChild(modal);
+    this.renderPopupSchedule();
+  }
+
+  renderPopupSchedule() {
+    const scheduleGrid = document.getElementById('popupScheduleGrid');
+    if (!scheduleGrid) return;
+
+    const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
+    const timeSlots = ['09:00-11:00', '11:00-13:00', '14:00-16:00', '16:00-18:00'];
+    const user = auth.currentUser;
+    const availability = MockData.teacherAvailability[user.username] || [];
+    
+    let scheduleHTML = '';
+    
+    // Add day headers
+    days.forEach(day => {
+      scheduleHTML += `
+        <div class="honeycomb-cell day-header">
+          <strong>${day}</strong>
+        </div>
+      `;
+    });
+    
+    // Add time slots for each day
+    timeSlots.forEach(timeSlot => {
+      days.forEach(day => {
+        const slot = availability.find(s => s.day === day && s.time === timeSlot);
+        const isAvailable = slot ? slot.available : false;
+        const className = isAvailable ? 'available' : 'unavailable';
+        
+        scheduleHTML += `
+          <div class="honeycomb-cell schedule-slot ${className}" 
+               onclick="teacherDashboard.toggleScheduleSlot('${day}', '${timeSlot}')"
+               title="${day} ${timeSlot}">
+            <div class="slot-time">${timeSlot.split('-')[0]}</div>
+            <div class="slot-status">${isAvailable ? '✓' : '✗'}</div>
+          </div>
+        `;
+      });
+    });
+    
+    scheduleGrid.innerHTML = scheduleHTML;
+  }
+
+  toggleScheduleSlot(day, time) {
+    const user = auth.currentUser;
+    const availability = MockData.teacherAvailability[user.username] || [];
+    
+    // Find existing slot
+    let slot = availability.find(s => s.day === day && s.time === time);
+    
+    if (slot) {
+      // Toggle availability
+      slot.available = !slot.available;
+    } else {
+      // Create new slot
+      slot = { day, time, available: true };
+      availability.push(slot);
+    }
+    
+    // Update mock data
+    MockData.teacherAvailability[user.username] = availability;
+    
+    // Re-render both schedules
+    this.renderPopupSchedule();
+    this.renderCompactSchedule();
+    
+    // Show notification
+    const status = slot.available ? 'available' : 'unavailable';
+    Utils.showNotification(`Marked ${day} ${time} as ${status}`, 'success');
+  }
+
   renderAssignedStudentsData(students) {
     const studentList = document.getElementById('studentList');
+    if (!studentList) return;
     
     if (students.length === 0) {
       studentList.innerHTML = '<li style="text-align: center; color: #666; padding: 1rem;">No students assigned yet.</li>';
@@ -147,7 +288,7 @@ class TeacherDashboard {
             </div>
           </div>
           <div style="text-align: right;">
-            <div style="font-weight: 600; color: #667eea;">${Math.round(avgProgress)}%</div>
+            <div style="font-weight: 600; color: var(--honey-amber);">${Math.round(avgProgress)}%</div>
             <div style="color: #666; font-size: 0.8rem;">Avg Progress</div>
           </div>
         </li>
@@ -155,44 +296,9 @@ class TeacherDashboard {
     }).join('');
   }
 
-  renderSchedulingData() {
-    const scheduleGrid = document.getElementById('scheduleGrid');
-    const user = auth.currentUser;
-    const availability = MockData.teacherAvailability[user.username] || [];
-    
-    const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
-    const timeSlots = ['09:00-11:00', '11:00-13:00', '14:00-16:00', '16:00-18:00'];
-    
-    let scheduleHTML = '<div style="grid-column: 1 / -1; text-align: center; font-weight: bold; margin-bottom: 0.5rem;">Time Slots</div>';
-    
-    days.forEach(day => {
-      scheduleHTML += `<div style="text-align: center; font-weight: bold; padding: 0.5rem;">${day}</div>`;
-    });
-    
-    timeSlots.forEach(timeSlot => {
-      scheduleHTML += `<div style="text-align: center; font-weight: bold; padding: 0.5rem;">${timeSlot}</div>`;
-      
-      days.forEach(day => {
-        const slot = availability.find(s => s.day === day && s.time === timeSlot);
-        const isAvailable = slot ? slot.available : false;
-        const className = isAvailable ? 'available' : 'unavailable';
-        const text = isAvailable ? 'Available' : 'Busy';
-        
-        scheduleHTML += `
-          <div class="schedule-slot ${className}" 
-               onclick="teacherDashboard.toggleSlot('${day}', '${timeSlot}')"
-               title="${day} ${timeSlot}">
-            ${text}
-          </div>
-        `;
-      });
-    });
-    
-    scheduleGrid.innerHTML = scheduleHTML;
-  }
-
   renderAnalyticsData(students) {
     const statsGrid = document.getElementById('statsGrid');
+    if (!statsGrid) return;
     
     const totalStudents = students.length;
     const avgAttendance = students.reduce((sum, s) => sum + s.performance.attendance, 0) / totalStudents || 0;
@@ -219,22 +325,25 @@ class TeacherDashboard {
   }
 
   createAnalyticsChart(students) {
-    const ctx = document.getElementById('analyticsChart').getContext('2d');
+    const ctx = document.getElementById('analyticsChart');
+    if (!ctx) return;
+    
+    const context = ctx.getContext('2d');
     
     const labels = students.map(s => s.name);
     const progressData = students.map(s => {
       return s.performance.subjects.reduce((sum, sub) => sum + sub.progress, 0) / s.performance.subjects.length;
     });
     
-    new Chart(ctx, {
+    new Chart(context, {
       type: 'bar',
       data: {
         labels: labels,
         datasets: [{
           label: 'Average Progress (%)',
           data: progressData,
-          backgroundColor: '#667eea',
-          borderColor: '#5a6fd8',
+          backgroundColor: 'var(--honey-amber)',
+          borderColor: 'var(--honey-brown)',
           borderWidth: 1
         }]
       },
@@ -258,85 +367,54 @@ class TeacherDashboard {
 
   renderFeedbackTemplatesData(students) {
     const feedbackContainer = document.getElementById('feedbackTemplates');
+    if (!feedbackContainer) return;
     
     if (students.length === 0) {
       feedbackContainer.innerHTML = '<p style="text-align: center; color: #666;">No students assigned for feedback.</p>';
       return;
     }
-    
+
     feedbackContainer.innerHTML = students.map(student => `
       <div class="feedback-template">
         <h4>Feedback for ${student.name}</h4>
         <form class="feedback-form" onsubmit="teacherDashboard.submitFeedback(event, '${student.username}')">
           <textarea 
-            placeholder="Provide feedback on performance, areas for improvement, and recommendations..."
+            placeholder="Provide constructive feedback for ${student.name}..."
             required
           ></textarea>
-          <button type="submit" class="submit-btn">Submit Feedback</button>
+          <button type="submit" class="submit-btn">Send Feedback</button>
         </form>
       </div>
     `).join('');
   }
 
-  toggleSlot(day, time) {
-    const user = auth.currentUser;
-    const availability = MockData.teacherAvailability[user.username] || [];
-    
-    let slot = availability.find(s => s.day === day && s.time === time);
-    if (!slot) {
-      slot = { day, time, available: false };
-      availability.push(slot);
-    }
-    
-    slot.available = !slot.available;
-    
-    // Update localStorage
-    const teacherSchedules = Utils.getFromStorage('teacherSchedules') || {};
-    teacherSchedules[user.username] = availability;
-    Utils.saveToStorage('teacherSchedules', teacherSchedules);
-    
-    // Refresh schedule display
-    this.renderSchedulingData();
-    
-    Utils.showNotification(
-      `Slot ${slot.available ? 'marked as available' : 'marked as busy'}`,
-      'success'
-    );
-  }
-
   submitFeedback(event, studentUsername) {
     event.preventDefault();
-    
     const form = event.target;
     const textarea = form.querySelector('textarea');
     const feedback = textarea.value.trim();
     
-    if (!feedback) {
-      Utils.showNotification('Please enter feedback.', 'error');
-      return;
+    if (feedback) {
+      // Save feedback to localStorage
+      const feedbacks = Utils.getFromStorage('teacherFeedbacks') || [];
+      feedbacks.push({
+        id: Utils.generateId(),
+        teacher: auth.currentUser.username,
+        student: studentUsername,
+        feedback,
+        date: new Date().toISOString()
+      });
+      Utils.saveToStorage('teacherFeedbacks', feedbacks);
+      
+      Utils.showNotification('Feedback sent successfully!', 'success');
+      textarea.value = '';
+    } else {
+      Utils.showNotification('Please enter your feedback.', 'error');
     }
-
-    const feedbackData = {
-      id: Utils.generateId(),
-      teacher: auth.currentUser.username,
-      student: studentUsername,
-      feedback,
-      date: new Date().toISOString()
-    };
-
-    // Save feedback to localStorage
-    const feedbacks = Utils.getFromStorage('teacherFeedbacks') || [];
-    feedbacks.push(feedbackData);
-    Utils.saveToStorage('teacherFeedbacks', feedbacks);
-
-    // Clear form
-    textarea.value = '';
-    
-    Utils.showNotification('Feedback submitted successfully!', 'success');
   }
 
   setupEventListeners() {
-    // Additional event listeners can be added here
+    // Any additional event listeners can be added here
   }
 }
 

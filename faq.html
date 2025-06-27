@@ -6,8 +6,9 @@
   <meta name="description" content="Gyanhive FAQ: Answers to common questions about A-levels tutoring, online and home-to-home classes, and more." />
   <meta name="keywords" content="A-levels, FAQ, tutoring, online, home-to-home, Gyanhive" />
   <meta name="author" content="Gyanhive" />
-  <title>FAQ | Gyanhive A-Levels Tutoring</title>
+  <title>🐝 FAQ | Gyanhive A-Levels Institute</title>
   <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="beehive-theme.css" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
@@ -93,9 +94,28 @@
       <div class="footer-address">
         <span>Kathmandu, Nepal</span>
       </div>
-      <div style="width:100%;margin-top:1rem;font-size:0.95rem;color:#ccc;">&copy; 2025 Gyanhive A-Levels Institute. All rights reserved.</div>
+      <div class="footer-copyright">&copy; 2025 Gyanhive A-Levels Institute. All rights reserved.</div>
     </div>
   </footer>
+  <script src="auth.js"></script>
   <script src="script.js"></script>
+  <script>
+    // Page load bee animation
+    document.addEventListener('DOMContentLoaded', function() {
+      function createPageBee() {
+        const bee = document.createElement('div');
+        bee.className = 'page-bee';
+        bee.innerHTML = '🐝';
+        document.body.appendChild(bee);
+        
+        setTimeout(() => {
+          bee.remove();
+        }, 4000);
+      }
+      
+      // Create page bee on load
+      setTimeout(createPageBee, 500);
+    });
+  </script>
 </body>
 </html> 

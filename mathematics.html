@@ -5,9 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Mathematics | Gyanhive A-Levels Institute</title>
   <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="beehive-theme.css" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@700&family=Lato:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 <body>
   <nav id="navbar" class="modern-nav sticky-nav">
@@ -43,7 +45,9 @@
   <main>
     <section class="services-section" aria-labelledby="math-title">
       <h2>Mathematics (A-Levels)</h2>
-      <img src="https://images.unsplash.com/photo-1503676382389-4809596d5290?auto=format&fit=crop&w=400&q=80" alt="Mathematics - A-levels subject illustration" style="width:180px;border-radius:1.5rem;box-shadow:0 4px 24px #ffd70055;margin:1.5rem auto;display:block;" />
+      <div style="text-align: center; margin: 2rem 0;">
+        <i class="fa-solid fa-calculator" style="font-size: 8rem; color: var(--honey-amber); text-shadow: 0 4px 12px rgba(139, 69, 19, 0.3);"></i>
+      </div>
       <div class="about-desc" style="max-width:700px;margin:0 auto 2rem auto;">
         <strong>What is A-level Mathematics?</strong><br>
         A-level Mathematics covers core topics in algebra, calculus, geometry, and statistics. It develops analytical, logical, and problem-solving skills for science, engineering, and business careers.
@@ -84,9 +88,44 @@
       <div class="footer-address">
         <span>Kathmandu, Nepal</span>
       </div>
-      <div style="width:100%;margin-top:1rem;font-size:0.95rem;color:#ccc;">&copy; 2025 Gyanhive A-Levels Institute. All rights reserved.</div>
+      <div class="footer-copyright">&copy; 2025 Gyanhive A-Levels Institute. All rights reserved.</div>
     </div>
   </footer>
   <script src="script.js"></script>
+  <script>
+    // Page load bee animation
+    document.addEventListener('DOMContentLoaded', function() {
+      function createPageBee() {
+        const bee = document.createElement('div');
+        bee.className = 'page-bee';
+        bee.innerHTML = '🐝';
+        document.body.appendChild(bee);
+        
+        setTimeout(() => {
+          bee.remove();
+        }, 4000);
+      }
+      
+      // Create page bee on load
+      setTimeout(createPageBee, 500);
+      
+      // Add floating bee animation
+      function createFloatingBee() {
+        const bee = document.createElement('div');
+        bee.className = 'flying-bee';
+        bee.innerHTML = '🐝';
+        bee.style.left = Math.random() * window.innerWidth + 'px';
+        bee.style.animationDelay = Math.random() * 5 + 's';
+        document.body.appendChild(bee);
+        
+        setTimeout(() => {
+          bee.remove();
+        }, 6000);
+      }
+      
+      // Create bees periodically
+      setInterval(createFloatingBee, 15000);
+    });
+  </script>
 </body>
 </html> 

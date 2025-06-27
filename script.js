@@ -3,15 +3,21 @@ function scrollToContact() {
   document.getElementById('contact').scrollIntoView({ behavior: 'smooth' });
 }
 
+// Only handle anchor links (starting with #) for smooth scrolling
 document.querySelectorAll('.nav-btn-group a, .hero-cta-group a, .mobile-nav-links a').forEach(link => {
   link.addEventListener('click', function(e) {
     const href = this.getAttribute('href');
+    // Only prevent default for anchor links (starting with #)
     if (href && href.startsWith('#')) {
       e.preventDefault();
-      document.querySelector(href).scrollIntoView({ behavior: 'smooth' });
+      const targetElement = document.querySelector(href);
+      if (targetElement) {
+        targetElement.scrollIntoView({ behavior: 'smooth' });
+      }
       // Close mobile nav if open
       if (window.innerWidth < 700) closeMobileNav();
     }
+    // For all other links (like Learn More buttons), let them work normally
   });
 });
 
@@ -82,9 +88,11 @@ const scrollBtn = document.getElementById('scrollToTopBtn');
 window.addEventListener('scroll', () => {
   if (!scrollBtn) return;
   if (window.scrollY > 200) {
-    scrollBtn.style.display = 'flex';
+    scrollBtn.style.visibility = 'visible';
+    scrollBtn.style.opacity = '1';
   } else {
-    scrollBtn.style.display = 'none';
+    scrollBtn.style.visibility = 'hidden';
+    scrollBtn.style.opacity = '0';
   }
 });
 if (scrollBtn) {

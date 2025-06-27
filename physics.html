@@ -5,9 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Physics | Gyanhive A-Levels Institute</title>
   <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="beehive-theme.css" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@700&family=Lato:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 <body>
   <nav id="navbar" class="modern-nav sticky-nav">
@@ -28,33 +30,37 @@
       </div>
     </div>
   </nav>
-  <section class="services-section">
-    <h2>Physics (A-Levels)</h2>
-    <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=400&q=80" alt="Physics" style="width:180px;border-radius:1.5rem;box-shadow:0 4px 24px #ffd70055;margin:1.5rem auto;display:block;" />
-    <div class="about-desc" style="max-width:700px;margin:0 auto 2rem auto;">
-      <strong>What is A-level Physics?</strong><br>
-      A-level Physics explores the fundamental laws of nature, from mechanics and electricity to quantum physics and cosmology. It develops analytical, mathematical, and experimental skills for science and engineering careers.
-      <br><br>
-      <strong>What Gyanhive Provides:</strong>
-      <ul style="text-align:left;max-width:600px;margin:1rem auto 1rem 2rem;">
-        <li>Expert online and home-to-home tutoring by experienced Physics teachers</li>
-        <li>Personalized lesson plans and one-on-one support</li>
-        <li>Exam-focused strategies and past paper practice</li>
-        <li>Lab skills, practical guidance, and interactive resources</li>
-        <li>Flexible scheduling to fit your needs</li>
-      </ul>
-      <strong>Why Choose Gyanhive for Physics?</strong>
-      <ul style="text-align:left;max-width:600px;margin:1rem auto 1rem 2rem;">
-        <li>Proven success in A-level Physics results</li>
-        <li>Support for both theory and practical components</li>
-        <li>Motivating, creative, and supportive learning environment</li>
-      </ul>
-    </div>
-  </section>
+  <main>
+    <section class="services-section" aria-labelledby="physics-title">
+      <h2>Physics (A-Levels)</h2>
+      <div style="text-align: center; margin: 2rem 0;">
+        <i class="fa-solid fa-atom" style="font-size: 8rem; color: var(--honey-amber); text-shadow: 0 4px 12px rgba(139, 69, 19, 0.3);"></i>
+      </div>
+      <div class="about-desc" style="max-width:700px;margin:0 auto 2rem auto;">
+        <strong>What is A-level Physics?</strong><br>
+        A-level Physics explores the fundamental laws of nature, from mechanics and electricity to quantum physics and cosmology. It develops analytical, mathematical, and experimental skills for science and engineering careers.
+        <br><br>
+        <strong>What Gyanhive Provides:</strong>
+        <ul style="text-align:left;max-width:600px;margin:1rem auto 1rem 2rem;">
+          <li>Expert online and home-to-home tutoring by experienced Physics teachers</li>
+          <li>Personalized lesson plans and one-on-one support</li>
+          <li>Exam-focused strategies and past paper practice</li>
+          <li>Lab skills, practical guidance, and interactive resources</li>
+          <li>Flexible scheduling to fit your needs</li>
+        </ul>
+        <strong>Why Choose Gyanhive for Physics?</strong>
+        <ul style="text-align:left;max-width:600px;margin:1rem auto 1rem 2rem;">
+          <li>Proven success in A-level Physics results</li>
+          <li>Support for both theory and practical components</li>
+          <li>Motivating, creative, and supportive learning environment</li>
+        </ul>
+      </div>
+    </section>
+  </main>
   <footer class="footer">
     <div class="footer-content">
       <div class="footer-logo">
-        <img src="https://i.postimg.cc/130YSvb0/Untitled-design-5.png" alt="Gyanhive Crest" style="height:32px;width:auto;" />
+        <img src="https://i.postimg.cc/130YSvb0/Untitled-design-5.png" alt="Gyanhive Crest Logo" style="height:32px;width:auto;" />
         Gyanhive
       </div>
       <div class="footer-links">
@@ -64,15 +70,50 @@
         <a href="contact.html">Contact</a>
       </div>
       <div class="footer-social">
-        <a href="mailto:gyanhive74@gmail.com">gyanhive74@gmail.com</a>
-        <a href="https://www.instagram.com/gyanhive_alevels" target="_blank">Instagram</a>
+        <a href="mailto:gyanhive74@gmail.com" aria-label="Email"><i class="fa-solid fa-envelope"></i></a>
+        <a href="https://www.instagram.com/gyanhive_alevels" target="_blank" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
       </div>
       <div class="footer-address">
         <span>Kathmandu, Nepal</span>
       </div>
-      <div style="width:100%;margin-top:1rem;font-size:0.95rem;color:#ccc;">&copy; 2025 Gyanhive A-Levels Institute. All rights reserved.</div>
+      <div class="footer-copyright">&copy; 2025 Gyanhive A-Levels Institute. All rights reserved.</div>
     </div>
   </footer>
   <script src="script.js"></script>
+  <script>
+    // Page load bee animation
+    document.addEventListener('DOMContentLoaded', function() {
+      function createPageBee() {
+        const bee = document.createElement('div');
+        bee.className = 'page-bee';
+        bee.innerHTML = '🐝';
+        document.body.appendChild(bee);
+        
+        setTimeout(() => {
+          bee.remove();
+        }, 4000);
+      }
+      
+      // Create page bee on load
+      setTimeout(createPageBee, 500);
+      
+      // Add floating bee animation
+      function createFloatingBee() {
+        const bee = document.createElement('div');
+        bee.className = 'flying-bee';
+        bee.innerHTML = '🐝';
+        bee.style.left = Math.random() * window.innerWidth + 'px';
+        bee.style.animationDelay = Math.random() * 5 + 's';
+        document.body.appendChild(bee);
+        
+        setTimeout(() => {
+          bee.remove();
+        }, 6000);
+      }
+      
+      // Create bees periodically
+      setInterval(createFloatingBee, 15000);
+    });
+  </script>
 </body>
 </html> 
