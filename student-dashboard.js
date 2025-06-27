@@ -440,20 +440,38 @@ class StudentDashboard {
     const subjectList = document.getElementById('subjectList');
     if (!subjectList) return;
     
-    subjectList.innerHTML = subjects.map(subject => `
-      <li class="subject-item">
-        <div>
-          <strong>${subject.name}</strong>
-          <div style="color: #666; font-size: 0.9rem;">Grade: ${subject.grade}</div>
-        </div>
-        <div style="display: flex; align-items: center; gap: 1rem;">
-          <div class="progress-bar">
-            <div class="progress-fill" style="width: ${subject.progress}%"></div>
+    const subjectIcons = {
+      'Physics': '⚛️',
+      'Mathematics': '📐',
+      'Chemistry': '🧪',
+      'Biology': '🧬',
+      'Computer Science': '💻',
+      'English': '📚',
+      'Economics': '📊',
+      'Business': '💼',
+      'Psychology': '🧠'
+    };
+    
+    subjectList.innerHTML = subjects.map(subject => {
+      const icon = subjectIcons[subject.name] || '📖';
+      return `
+        <li class="subject-item">
+          <div class="subject-info">
+            <div class="subject-icon">${icon}</div>
+            <div>
+              <div class="subject-name">${subject.name}</div>
+              <div style="color: var(--honey-text); font-size: 0.9rem;">Grade: ${subject.grade}</div>
+            </div>
           </div>
-          <span style="font-weight: 600; color: var(--honey-amber);">${subject.progress}%</span>
-        </div>
-      </li>
-    `).join('');
+          <div style="display: flex; align-items: center; gap: 1rem;">
+            <div class="progress-bar">
+              <div class="progress-fill" style="width: ${subject.progress}%"></div>
+            </div>
+            <div class="progress-text">${subject.progress}%</div>
+          </div>
+        </li>
+      `;
+    }).join('');
   }
 
   renderResourcesList() {
@@ -466,7 +484,7 @@ class StudentDashboard {
       const isCompleted = savedProgress[resource.id] || resource.completed;
       return `
         <div class="resource-item">
-          <div>
+          <div class="resource-info">
             <input 
               type="checkbox" 
               class="resource-checkbox" 
@@ -474,12 +492,12 @@ class StudentDashboard {
               ${isCompleted ? 'checked' : ''}
               onchange="studentDashboard.updateResourceProgress(${resource.id}, this.checked)"
             >
-            <label for="resource-${resource.id}">
-              <strong>${resource.title}</strong>
-              <div style="color: #666; font-size: 0.9rem;">${resource.type}</div>
-            </label>
+            <div class="resource-label">
+              <div class="resource-title">${resource.title}</div>
+              <div class="resource-type">${resource.type}</div>
+            </div>
           </div>
-          <a href="${resource.url}" target="_blank" style="color: var(--honey-amber); text-decoration: none;">
+          <a href="${resource.url}" target="_blank" class="resource-link">
             View →
           </a>
         </div>
